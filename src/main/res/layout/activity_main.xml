@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.weshape3d.websocket.javawebsocket.MainActivity">
+<EditText
+    android:id="@+id/et_send"
+    android:textSize="14sp"
+    android:layout_width="match_parent"
+    android:layout_height="40dp" />
+<Button
+    android:layout_marginTop="20dp"
+    android:textSize="14sp"
+    android:id="@+id/bt_send"
+    android:text="发送"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" />
+    <Button
+        android:layout_marginTop="20dp"
+        android:textSize="14sp"
+        android:id="@+id/bt_close"
+        android:text="关闭"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <Button
+        android:layout_marginTop="20dp"
+        android:textSize="14sp"
+        android:id="@+id/bt_secend"
+        android:text="跳转"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <TextView
+
+        android:text="接收到来自服务器的消息。"
+        android:id="@+id/tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+</LinearLayout>
