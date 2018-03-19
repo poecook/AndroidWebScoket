@@ -19,6 +19,7 @@ import org.java_websocket.handshake.ServerHandshake;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Timer;
+import java.util.TimerTask;
 
 
 public class SocketService extends Service {
@@ -61,7 +62,7 @@ public class SocketService extends Service {
     int count = 0;
    private void connetToServer(final String str){
        try {
-           webSocketClient = new WebSocketClient(new URI("ws://192.168.1.18:8080/websocket"), new Draft_6455() {},null,5000) {
+           webSocketClient = new WebSocketClient(new URI("ws://192.168.25.188:8080/websocket"), new Draft_6455() {},null,5000) {
                @Override
                public void onWebsocketHandshakeSentAsClient(WebSocket conn, ClientHandshake request) throws InvalidDataException {super.onWebsocketHandshakeSentAsClient(conn, request);
                 Log.d("drummor","发送握手了");
@@ -135,23 +136,28 @@ public class SocketService extends Service {
         }
     }
 
+    /**
+     * 重新连接
+     */
     private void reconnet(){
-        if(webSocketClient!=null){
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        while (webSocketClient.isClosed()&&!webSocketClient.reconnectBlocking()&&max>count){
-                            Log.d("drummor","第"+count+"次重连");
-                            count++;
-                        }
-                        count = 0;
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
+        final Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                try {
+                    if (webSocketClient.isClosed()&&!webSocketClient.reconnectBlocking()){
+                        Log.d("drummor","第"+(count+1)+"次重连");
+                        count++;
                     }
+                    if(count >=5){
+                        timer.cancel();
+                        count = 0;
+                    }
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
-            }).start();
-        }
+            }
+        },0,2000);
     }
     private SocketListener socketListener = null;
     public void setSocketListener(SocketListener socketListener) {
